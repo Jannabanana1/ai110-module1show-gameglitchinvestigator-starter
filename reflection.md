@@ -7,7 +7,15 @@ Answer each question in 3 to 5 sentences. Be specific and honest about what actu
 - What did the game look like the first time you ran it?
 - List at least two concrete bugs you noticed at the start  
   (for example: "the hints were backwards").
-
+  * One bug I saw was that the history of my input did
+  not show right after input. 
+  Location: st.session_state.history.append(guess_int)
+  app.py
+  * Another issue is that it says -5 but gives you score of 85 if one input is wrong. Therefore, the points reduced and the total points given don't match. 
+  Location: update_score method in logic_utils.py
+  * History shows that the attempt starts at 0 although it should start at 1
+  Location: st.session_state.history.append(guess_int)
+  app.py
 **Bug Reproduction Log**
 
 Document at least 3 bugs you found. Add rows as needed.

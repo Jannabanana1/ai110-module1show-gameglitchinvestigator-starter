@@ -117,6 +117,18 @@ def attempts_remaining(attempt_limit: int, attempts_used: int):
     return max(0, attempt_limit - attempts_used)
 
 
+def numbered_history(history):
+    """Return the guess history keyed by attempt number, counting from 1.
+
+    The raw history is a plain list, so anything that renders it directly
+    labels the first guess 0. Attempts are counted from 1 everywhere else --
+    `record_guess` sets attempts to 1 after the first guess, and the win
+    message says "in 1 attempts" -- so a 0-based display contradicts the rest
+    of the game. Keying by attempt number makes entry N the Nth guess.
+    """
+    return dict(enumerate(history, start=1))
+
+
 def record_guess(state: dict, raw: str, low: int, high: int, attempt_limit: int):
     """Apply one submitted guess and return the resulting game state.
 

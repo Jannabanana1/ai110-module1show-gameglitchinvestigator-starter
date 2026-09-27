@@ -6,6 +6,7 @@ from logic_utils import (
     attempts_remaining,
     get_attempt_limit,
     get_range_for_difficulty,
+    numbered_history,
     record_guess,
 )
 
@@ -97,7 +98,8 @@ with st.expander("Developer Debug Info"):
     st.write("Attempts:", st.session_state.attempts)
     st.write("Score:", st.session_state.score)
     st.write("Difficulty:", difficulty)
-    st.write("History:", st.session_state.history)
+    # Numbered from 1 so an entry lines up with the attempt that made it.
+    st.write("History:", numbered_history(st.session_state.history))
 
 st.text_input("Enter your guess:", key="guess_input", disabled=game_over)
 

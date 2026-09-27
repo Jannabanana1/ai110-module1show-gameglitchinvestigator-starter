@@ -1,6 +1,7 @@
 from logic_utils import (
     attempts_remaining,
     check_guess,
+    numbered_history,
     record_guess,
     update_score,
 )
@@ -186,3 +187,54 @@ def test_rejected_input_does_not_change_the_score():
 
     assert guess(state, "banana")["score"] == 95
     assert guess(state, "150")["score"] == 95
+
+
+# --- Regression tests for the 0-indexed history display ---------------------
+#
+# The bug: app.py handed the raw history list straight to st.write, so the
+# viewer labeled the entries 0, 1, 2. Every other count in the game starts at
+# 1 -- record_guess sets attempts to 1 after the first guess -- so the first
+# guess was shown as entry 0 of attempt 1. numbered_history keys the guesses
+# by attempt number instead, and these tests pin that alignment.
+
+
+def test_history_is_numbered_from_one():
+    """THE regression test: the first guess is entry 1, never entry 0."""
+    numbered = numbered_history([42, 17, 30])
+
+    assert numbered == {1: 42, 2: 17, 3: 30}
+    assert 0 not in numbered
+    assert min(numbered) == 1
+
+
+def test_history_key_matches_the_attempt_that_made_the_guess():
+    """Entry N is the guess from attempt N, driven through the real game."""
+    state = new_state()
+    for raw in ("40", "45", "48"):
+        state = guess(state, raw)
+        numbered = numbered_history(state["history"])
+
+        # The guess just made is filed under the attempt count it produced.
+        assert numbered[state["attempts"]] == int(raw)
+
+    assert numbered_history(state["history"]) == {1: 40, 2: 45, 3: 48}
+
+
+def test_empty_history_is_numbered_without_error():
+    assert numbered_history([]) == {}
+
+
+def test_rejected_guess_does_not_take_a_history_number():
+    """A bad input burns no attempt, so it must not shift the numbering."""
+    state = guess(new_state(), "40")
+    state = guess(state, "banana")
+    state = guess(state, "45")
+
+    assert numbered_history(state["history"]) == {1: 40, 2: 45}
+
+
+def test_numbered_history_does_not_mutate_the_history_it_was_given():
+    history = [42, 17]
+    numbered_history(history)
+
+    assert history == [42, 17]

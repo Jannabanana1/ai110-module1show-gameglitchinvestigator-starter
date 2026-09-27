@@ -83,17 +83,28 @@ def update_score(current_score: int, outcome: str, attempt_number: int):
     """
     Update score based on outcome and attempt number.
 
-    A win is worth more the sooner it happens (minimum 10 points).
-    Every wrong guess costs 5 points, no matter which direction it missed.
+    A win pays 100 points minus 5 for each guess already missed, so a win on
+    attempt N is worth 100 - 5 * (N - 1): 100, 95, 90, 85 and so on, never
+    below zero. Each miss costs 5 points, charged exactly once.
+
+    Two things this shape is deliberately guarding:
+
+    1. The bonus used to decay by 10 per attempt ON TOP of a -5 deducted at
+       each miss, which charged every miss twice -- a win on attempt 2 paid
+       85 rather than 95.
+    2. A miss does not deduct from the running score, because the score is
+       floored at zero and starts at zero: a running deduction would be
+       clamped away immediately and cost the player nothing. Charging the
+       miss against the win bonus is what makes the 5 points real.
     """
     if outcome == "Win":
-        points = max(10, 100 - 10 * (attempt_number - 1))
-        return current_score + points
+        return max(0, current_score + 100 - 5 * (attempt_number - 1))
 
     if outcome in ("Too High", "Too Low"):
-        return current_score - 5
+        # Already paid for by the smaller win bonus above.
+        return max(0, current_score)
 
-    return current_score
+    return max(0, current_score)
 
 
 def attempts_remaining(attempt_limit: int, attempts_used: int):

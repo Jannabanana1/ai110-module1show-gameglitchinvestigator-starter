@@ -22,9 +22,7 @@ Document at least 3 bugs you found. Add rows as needed.
 | Input | Expected Behavior | Actual Behavior | Console Output / Error |
 |-------|-------------------|-----------------|------------------------|
 |6 | Should be -15 and Score = 85 |Score=85 but -5 points  |Location: update_score method in logic_utils.py |
-
-|5 |Should add input history |No history till second input |The error is in Location: st.session_state.history.append(guess_int) app.py|
-
+|5 | Should add input history |No history till second input |The error is in Location: st.session_state.history.append(guess_int) app.py|
 |10 |Expected to show attempt 1: 10 |Actual: attempt 0: 10 | Location: st.session_state.history.append(guess_int)
   app.py|
 
@@ -61,8 +59,8 @@ Document at least 3 bugs you found. Add rows as needed.
 
 - What is one habit or strategy from this project that you want to reuse in future labs or projects?
 * Using claude code to figure out how to debug and creating pytests using AI claude code
-  - This could be a testing habit, a prompting strategy, or a way you used Git.
+ 
 - What is one thing you would do differently next time you work with AI on a coding task?
 * I will probably ask AI to explain more of the code so that I get the full context
 - In one or two sentences, describe how this project changed the way you think about AI generated code.
-* This project made me realize that AI can be helpful since it makes ther process much faster. However, it can also be harmful if it makes a mistake that is not caught by the developer.
+* This project made me realize that AI can be helpful since it makes the process much faster. However, it can also be harmful if it makes a mistake that is not caught by the developer.

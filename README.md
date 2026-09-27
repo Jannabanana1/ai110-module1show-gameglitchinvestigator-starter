@@ -33,11 +33,11 @@ It wrote the code, ran away, and now the game is unplayable.
 
 Describe your fixed game in numbered steps so a reader can follow along without watching a video:
 
-1. <!-- Describe this step -->
-2. <!-- Describe this step -->
-3. <!-- Describe this step -->
-4. <!-- Describe this step -->
-5. <!-- Add more steps as needed -->
+1. Choose difficulty of easy, hard, or normal
+2. Choose a number within the range given
+3. Keep choosing numbers based off the hint of 
+going lower or higher than your guess
+4. You can start a new game or keep going till all attempts have been made. You win if you guess correctly before attempts have been all used up. 
 
 **Screenshot** *(optional)*: <!-- Insert a screenshot of your fixed, winning game here -->
 
